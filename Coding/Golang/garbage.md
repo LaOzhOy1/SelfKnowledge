@@ -1,0 +1,1 @@
+https://golang.design/under-the-hood/zh-cn/part2runtime/ch08gc/barrier/
