@@ -26,7 +26,7 @@ allp *p 定义在runtime2.go:1111
 
 ### 全局G队列
 
-  allgs   []*g 定义在proc.go:515
+  allgs   []*g 定义在proc.go:515  
 
 
 
@@ -2603,7 +2603,7 @@ top:
 		_p_, _ = pidleget(now)
 		unlock(&sched.lock)
 		if _p_ == nil {
-            // 会将采集的到Gs，如果当前P已经被挂起，通过检查当前的Idle全局P，将所有Gs放入全局可运行G列表中，去启动相应数量的M，返回。，如果当前P没被挂起，则将idle数量的G传到全局可运行G列表，其他的在当前P上允许
+            // 会将采集的到Gs，如果当前P已经被挂起，通过检查当前的Idle全局P，将所有Gs放入全局可运行G列表中，去启动P相应数量的M，返回。，如果当前P没被挂起，则将idle数量的G传到全局可运行G列表，其他的在当前P上允行
 			injectglist(&list)
 		} else {
             // 

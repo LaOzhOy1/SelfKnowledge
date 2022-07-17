@@ -1,3 +1,5 @@
+参考文献：https://golang.design/under-the-hood/zh-cn/part2runtime/ch07alloc/basic/
+
 #  内存管理
 
 ## 概述

@@ -404,7 +404,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
   mp.waittraceskip = traceskip
   // 释放M与P之间的关系
   releasem(mp)
-  // 将M0的Stack 切回G0，并将G的现场保存在g->scheduled中，m可以继续和其他goroutine交互
+  // 将M的Stack 切回G0，并将G的现场保存在g->scheduled中，m可以继续和其他goroutine交互
   mcall(park_m)
   ```
 
@@ -606,7 +606,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 
 
 
-### 关闭队列
+### 关闭Channel
 
 1. 获取锁资源，锁住Channel所有数据结构
 
