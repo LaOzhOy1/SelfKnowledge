@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = ".;proto";
+/*
+Where in the output directory the generated .pb.go file is placed depends on the compiler flags.
+ There are several output modes:
+
+If the paths=import flag is specified,
+the output file is placed in a directory named after the Go package's import path.
+For example, an input file protos/buzz.proto with a Go import path of example.com/project/protos/fizz results in an output file at example.com/project/protos/fizz/buzz.pb.go.
+
+ This is the default output mode if a paths flag is not specified.
+
+If the module=$PREFIX flag is specified,
+the output file is placed in a directory named after the Go package's import path,
+ but with the specified directory prefix removed from the output filename.
+For example, an input file protos/buzz.proto with a Go import path of example.com/project/protos/fizz
+and example.com/project specified as the module prefix results in an output file at protos/fizz/buzz.pb.go.
+Generating any Go packages outside the module path results in an error.
+This mode is useful for outputting generated files directly into a Go module.
+
+If the paths=source_relative flag is specified,
+the output file is placed in the same relative directory as the input file.
+For example, an input file protos/buzz.proto results in an output file at protos/buzz.pb.go.
+
+
+Flags specific to protoc-gen-go are provided by passing a go_opt flag when invoking protoc.
+ Multiple go_opt flags may be passed. For example, when running:
+
+protoc --proto_path=src --go_out=out --go_opt=paths=source_relative foo.proto bar/baz.proto
+
+the compiler will read input files foo.proto and bar/baz.proto from within the src directory,
+ and write output files foo.pb.go and bar/baz.pb.go to the out directory.
+ The compiler automatically creates nested output sub-directories if necessary,
+  but will not create the output directory itself.
+
+
+ 生成 grpc 文件 与 protobuf 定义的数据类型文件
+➜  quick-start git:(master) ✗ protoc  --go_out=proto/ --go-grpc_out=proto/ proto/quick-start.proto 默认根目录为proto，在执行go file 中 option 路径时会进行拼接检查
+➜  quick-start git:(master) ✗ protoc  --go_out=. --go-grpc_out=.   proto/quick-start.proto  默认根目录为当前路径
+➜  quick-start git:(master) ✗ protoc  --go_out=proto --go_out=plugins=grpc:proto   proto/quick-start.proto  (error)
+--go_out: protoc-gen-go: plugins are not supported; use 'protoc --go-grpc_out=...' to generate gRPC
+
+
+
+In order to generate Go code, the Go package's import path must be provided for every .proto file
+ (including those transitively depended upon by the .proto files being generated).
+ There are two ways to specify the Go import path:
+
+by declaring it within the .proto file,
+
+option go_package = "../services;proto3";
+
+or
+
+by declaring it on the command line when invoking protoc
+
+  If the Go import path for a given .proto file is provided by both the .proto file itself and on the command line,
+   then the latter takes precedence over the former.
+
+
+*/
+
+message HelloRequest{
+    int32 pid = 1;
+}
+
+message HelloResponse{
+    int32 result = 1;
+}
+
+service HelloService{
+    rpc SayHello(HelloRequest) returns (HelloResponse);
+}

@@ -476,7 +476,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
   
 // 为什么这里返回false，false      
 		if atomic.Load(&c.closed) == 0 {
-			return
+			return  false,false
 		}
         
        
